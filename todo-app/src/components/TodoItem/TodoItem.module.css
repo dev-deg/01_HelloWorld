@@ -8,6 +8,34 @@
     border-radius: 5px;
 }
 
+.todoItem.completed {
+    background-color: #e8f5e8;
+    opacity: 0.8;
+}
+
+.todoContent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.todoText {
+    flex: 1;
+    transition: text-decoration 0.2s ease;
+}
+
+.completedText {
+    text-decoration: line-through;
+    color: #667;
+}
+
 .deleteButton {
     background-color: #ff4444;
     color: white;
@@ -20,3 +48,4 @@
 .deleteButton:hover {
     background-color: #cc3333;
 }
+

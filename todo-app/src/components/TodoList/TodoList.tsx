@@ -4,7 +4,7 @@ import TodoItem from '../TodoItem/TodoItem';
 import styles from './TodoList.module.css';
 
 // Todo List Component - display a list of todos
-const TodoList: React.FC<TodoListProps> = ({todos, onDeleteTodo})=>{
+const TodoList: React.FC<TodoListProps> = ({todos, onDeleteTodo, onToggleTodo})=>{
   return (
     <div className={styles.todoList}>
       {//condition
@@ -20,6 +20,7 @@ const TodoList: React.FC<TodoListProps> = ({todos, onDeleteTodo})=>{
             key={todo.id} 
             todo={todo} 
             onDelete={onDeleteTodo}
+            onToggle={onToggleTodo}
             />
         )
       )
