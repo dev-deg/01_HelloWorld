@@ -7,6 +7,22 @@
   background-color: #f0f0f0;
   border-radius: 5px;
   transition: background-color 0.2s ease;
+  border-left: 5px solid transparent;
+}
+
+.todoItem.high {
+  border-left-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.todoItem.medium {
+  border-left-color: #ffc107;
+  background-color: #fffef5;
+}
+
+.todoItem.low {
+  border-left-color: #28a745;
+  background-color: #f5fff5;
 }
 
 .todoItem.completed {

@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { AddTodoFormProps } from '../../types/todo';
+import { AddTodoFormProps, Priority } from '../../types/todo';
 import styles from './AddTodoForm.module.css';
 
 const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAddTodo }) => {
   const [inputValue, setInputValue] = useState<string>('');
+  const [priority, setPriority] = useState<Priority>('medium');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      onAddTodo(inputValue);
+      onAddTodo(inputValue, priority);
       setInputValue('');
+      setPriority('medium'); // Reset to default
     }
   };
 
@@ -22,6 +24,15 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAddTodo }) => {
         placeholder="Enter a new todo..."
         className={styles.input}
       />
+      <select 
+        value={priority}
+        onChange={(e) => setPriority(e.target.value as Priority)}
+        className={styles.prioritySelect}
+      >
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
       <button 
         type="submit"
         className={styles.submitButton}

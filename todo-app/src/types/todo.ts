@@ -1,7 +1,10 @@
+export type Priority = 'high' | 'medium' | 'low';
+
 export interface Todo {
   id: number;
   text: string;
   completed: boolean;
+  priority: Priority;
 }
 
 export interface TodoItemProps {
@@ -19,5 +22,5 @@ export interface TodoListProps {
 }
 
 export interface AddTodoFormProps {
-  onAddTodo: (text: string) => void;
+  onAddTodo: (text: string, priority: Priority) => void;
 }

@@ -48,7 +48,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle, onEdit })
   };
 
   return (
-    <div className={`${styles.todoItem} ${todo.completed ? styles.completed : ''}`}>
+    <div className={`${styles.todoItem} ${styles[todo.priority]} ${todo.completed ? styles.completed : ''}`}>
       <div className={styles.todoContent}>
         <input
           type="checkbox"

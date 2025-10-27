@@ -16,6 +16,20 @@
   border-color: #4CAF50;
 }
 
+.prioritySelect {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.prioritySelect:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
 .submitButton {
   padding: 10px 20px;
   font-size: 16px;
