@@ -15,4 +15,14 @@
   text-align: center;
   color: #666;
   font-size: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.counter {
+  padding: 5px 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-weight: 500;
 }

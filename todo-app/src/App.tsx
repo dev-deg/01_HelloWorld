@@ -36,6 +36,11 @@ const TodoApp: React.FC = () => {
     ));
   };
 
+  // Derive counters from todos array
+  const totalTodos = todos.length;
+  const activeTodos = todos.filter(todo => !todo.completed).length;
+  const completedTodos = todos.filter(todo => todo.completed).length;
+
   // Filter todos based on current filter state
   const filteredTodos = todos.filter(todo => {
     if (filter === 'active') return !todo.completed;
@@ -54,7 +59,9 @@ const TodoApp: React.FC = () => {
       <TodoList todos={filteredTodos} onDeleteTodo={deleteTodo} onToggleTodo={toggleTodo} onEditTodo={editTodo} />
       
       <div className={styles.footer}>
-        Total todos: {todos.length}
+        <span className={styles.counter}>Total: {totalTodos}</span>
+        <span className={styles.counter}>Active: {activeTodos}</span>
+        <span className={styles.counter}>Completed: {completedTodos}</span>
       </div>
     </div>
   );
