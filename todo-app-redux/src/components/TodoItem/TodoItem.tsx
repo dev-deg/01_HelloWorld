@@ -1,12 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import type { TodoItemProps } from '../../types/todo';
+import type { Todo } from '../../types/todo';
+import { useAppDispatch } from '../../store/hooks';
+import { toggleTodo, editTodo, deleteTodo } from '../../store/todoSlice';
 import styles from './TodoItem.module.css';
-
-const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle, onEdit }) => {
+ 
+interface TodoItemProps {
+  todo: Todo;
+}
+ 
+const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
+  // Get dispatch function from Redux
+  const dispatch = useAppDispatch();
+ 
+  // Local component state for editing mode (temporary UI state)
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(todo.text);
   const inputRef = useRef<HTMLInputElement>(null);
-
+ 
   // Focus input when entering edit mode
   useEffect(() => {
     if (isEditing && inputRef.current) {
@@ -14,25 +24,41 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle, onEdit })
       inputRef.current.select();
     }
   }, [isEditing]);
-
+ 
+  /**
+   * Enter edit mode when user double-clicks the todo text
+   */
   const handleDoubleClick = () => {
     setIsEditing(true);
     setEditText(todo.text);
   };
-
+ 
+  /**
+   * Save the edited todo text
+   * Dispatches editTodo action to Redux if text has changed
+   */
   const handleSave = () => {
     const trimmedText = editText.trim();
     if (trimmedText && trimmedText !== todo.text) {
-      onEdit(todo.id, trimmedText);
+      // Dispatch action to update todo in Redux store
+      dispatch(editTodo({ id: todo.id, text: trimmedText }));
     }
     setIsEditing(false);
   };
-
+ 
+  /**
+   * Cancel editing and revert to original text
+   */
   const handleCancel = () => {
     setEditText(todo.text);
     setIsEditing(false);
   };
-
+ 
+  /**
+   * Handle keyboard shortcuts while editing
+   * - Enter: Save changes
+   * - Escape: Cancel editing
+   */
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -42,18 +68,37 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle, onEdit })
       handleCancel();
     }
   };
-
+ 
+  /**
+   * Save changes when input loses focus
+   */
   const handleInputBlur = () => {
     handleSave();
   };
-
+ 
+  /**
+   * Toggle todo completion status
+   * Dispatches toggleTodo action to Redux
+   */
+  const handleToggle = () => {
+    dispatch(toggleTodo(todo.id));
+  };
+ 
+  /**
+   * Delete this todo
+   * Dispatches deleteTodo action to Redux
+   */
+  const handleDelete = () => {
+    dispatch(deleteTodo(todo.id));
+  };
+ 
   return (
     <div className={`${styles.todoItem} ${styles[todo.priority]} ${todo.completed ? styles.completed : ''}`}>
       <div className={styles.todoContent}>
         <input
           type="checkbox"
           checked={todo.completed}
-          onChange={() => onToggle(todo.id)}
+          onChange={handleToggle}
           className={styles.checkbox}
         />
         {isEditing ? (
@@ -67,7 +112,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle, onEdit })
             className={styles.editInput}
           />
         ) : (
-          <span 
+          <span
             className={`${styles.todoText} ${todo.completed ? styles.completedText : ''}`}
             onDoubleClick={handleDoubleClick}
           >
@@ -75,8 +120,8 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle, onEdit })
           </span>
         )}
       </div>
-      <button 
-        onClick={() => onDelete(todo.id)}
+      <button
+        onClick={handleDelete}
         className={styles.deleteButton}
       >
         Delete
@@ -84,5 +129,5 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, onToggle, onEdit })
     </div>
   );
 };
-
+ 
 export default TodoItem;

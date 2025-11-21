@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
-import type { AddTodoFormProps, Priority } from '../../types/todo';
+import type { Priority } from '../../types/todo';
 import styles from './AddTodoForm.module.css';
 
-const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAddTodo }) => {
+import {useAppDispatch} from "../../store/hooks"
+import { addTodo } from '../../store/todoSlice';
+
+const AddTodoForm: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [priority, setPriority] = useState<Priority>('medium');
+
+  const dispatch = useAppDispatch();
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      onAddTodo(inputValue, priority);
+
+      dispatch(addTodo({
+        text: inputValue,
+        priority: priority
+      }));
+
       setInputValue('');
       setPriority('medium'); // Reset to default
     }

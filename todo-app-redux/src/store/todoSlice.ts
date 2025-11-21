@@ -74,6 +74,7 @@ const todoSlice = createSlice({
 export const {
     addTodo,
     deleteTodo,
+    toggleTodo,
     editTodo,
     clearCompleted,
     setFilter
